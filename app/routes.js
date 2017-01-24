@@ -11,7 +11,7 @@ module.exports = function(app, passport) {
 	// =====================================
 	// LOGIN ===============================
 	// =====================================
-	// show the login form
+	// show the login form 
 	app.get('/login', function(req, res) {
 
 		// render the page and pass in any flash data if it exists
@@ -41,13 +41,19 @@ module.exports = function(app, passport) {
 	// show the signup form
 	app.get('/signup', function(req, res) {
 		// render the page and pass in any flash data if it exists
+        
 		res.render('signup.ejs', { message: req.flash('signupMessage') });
 	});
 
+    app.get('/signupFail', function(req, res) {
+		// render the page and pass in any flash data if it exists
+        res.json({'data':{'event':'signupFail'}, 'result':'false'});
+		//res.render('signup.ejs', { message: req.flash('signupMessage') });
+	});
 	// process the signup form
 	app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect : '/profile', // redirect to the secure profile section
-		failureRedirect : '/signup', // redirect back to the signup page if there is an error
+		failureRedirect : '/signupFail', // redirect back to the signup page if there is an error
 		failureFlash : true // allow flash messages
 	}));
 
@@ -61,7 +67,7 @@ module.exports = function(app, passport) {
 		// res.render('profile.ejs', {
 		// 	user : req.user // get the user out of session and pass to template
 		// });
-	    res.json({message: 'hello',  user:req.user}); //send json to client and show user info
+	    res.json({'data':{'event':'loginSuccess', 'userInfo':req.user}, 'result':'true'}); //send json to client and show user info
 	});
 
 	app.post('/profileSetting', isLoggedIn, function(req, res){
