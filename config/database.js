@@ -2,7 +2,7 @@
 module.exports = {
     'connection': {
         'host': 'localhost',
-        'user': 'root',
+        'user': 'admin', //localTest: admin; AWS Test root
         'password': 'ej03xu35k3'
     },
 	'database': 'testDB',
